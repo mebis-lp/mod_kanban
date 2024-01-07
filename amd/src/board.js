@@ -90,11 +90,27 @@ export default class extends KanbanComponent {
             'click',
             this._deleteConfirm
         );
+        this.addEventListener(
+            this.getElement(selectors.SCROLLLEFT),
+            'click',
+            this._scrollLeft
+        );
+        this.addEventListener(
+            this.getElement(selectors.SCROLLRIGHT),
+            'click',
+            this._scrollRight
+        );
+        this.addEventListener(
+            this.getElement(selectors.MAIN),
+            'scroll',
+            this._updateScrollButtons
+        );
         this.dragdrop = new DragDrop(this);
         if (state.common.liveupdate > 0) {
             this._continuousUpdate(state.common.liveupdate);
         }
         this.toggleClass('ontouchstart' in document.documentElement, 'mod_kanban_touch');
+        this._updateScrollButtons();
     }
 
     /**
@@ -318,5 +334,36 @@ export default class extends KanbanComponent {
      */
     hideDropZone() {
         this.getElement(selectors.ADDCOLUMNCONTAINER).classList.remove('mod_kanban_insert');
+    }
+
+    /**
+     * Scroll to the left.
+     */
+    _scrollLeft() {
+        this.getElement(selectors.MAIN).scrollLeft -= 80;
+    }
+
+    /**
+     * Scroll to the right.
+     */
+    _scrollRight() {
+        this.getElement(selectors.MAIN).scrollLeft += 80;
+    }
+
+    /**
+     * Only show scroll buttons if it's possible to scroll in this direction.
+     */
+    _updateScrollButtons() {
+        let main = this.getElement(selectors.MAIN);
+        if (main.scrollLeft <= 1) {
+            this.getElement(selectors.SCROLLLEFT).style.setProperty('visibility', 'hidden');
+        } else {
+            this.getElement(selectors.SCROLLLEFT).style.setProperty('visibility', 'visible');
+        }
+        if (main.scrollLeft < main.scrollLeftMax) {
+            this.getElement(selectors.SCROLLRIGHT).style.setProperty('visibility', 'visible');
+        } else {
+            this.getElement(selectors.SCROLLRIGHT).style.setProperty('visibility', 'hidden');
+        }
     }
 }
