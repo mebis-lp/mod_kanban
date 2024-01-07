@@ -391,3 +391,30 @@ a.mod_kanban_attachment_item {
 .mod_kanban_board .btn {
     background-color: white;
 }
+
+.mod_kanban_column_container.row {
+    margin-left: -30px;
+}
+
+.mod_kanban_scroll.row {
+    display: block;
+    position: sticky;
+    top: 50%;
+    z-index: 3;
+    width: 30px;
+    float: left;
+}
+
+.mod_kanban_scroll_button {
+    height: 50px;
+    width: 30px;
+    border: none;
+}
+
+.mod_kanban_scroll_left {
+    left: 0;
+}
+
+.mod_kanban_scroll_right {
+    left: calc(100vw - 30px);
+}
